@@ -1,5 +1,3 @@
-"use strict";
-
 var FormTextIp = React.createClass({
 	getInitialState: function () {
 		return {value: ""};
