@@ -1,33 +1,35 @@
+"use strict";
+
 var FormTextIp = React.createClass({
-	getInitialState: function(){
-		return {value:""}
+	getInitialState: function () {
+		return {value: ""};
 	},
 
-    componentWillMount: function(){
-        this.setState({value:this.props.value});
+    componentWillMount: function () {
+        this.setState({value: this.props.value});
     },
 
-	handleChange:function(event){
-		this.setState({value:event.target.value});
+	handleChange: function (event) {
+		this.setState({value: event.target.value});
 	},
 
-	render:function(){
+	render: function () {
 
         return (<div className="form-group">
-                    <label className="col-sm-3 control-label" htmlFor="inputName">{this.props.label}</label>
+                    <label className="col-sm-3 control-label" htmlFor={this.props.id}>{this.props.label}</label>
                     <div className="col-sm-9">
-                        <input className="form-control" type="text" value={this.state.value} onChange={this.handleChange}/>
+                        <input id={this.props.id} name={this.props.name} className="form-control" type="text" value={this.state.value} onChange={this.handleChange}/>
                     </div>
                 </div>);
 	}
 });
 
 var FormTextArea = React.createClass({
-	getInitialState: function(){
+	getInitialState: function () {
 		return {value:""}
 	},
 
-    componentWillMount: function(){
+    componentWillMount: function () {
         this.setState({value:this.props.value});
     },
 
@@ -35,30 +37,30 @@ var FormTextArea = React.createClass({
 		this.setState({value:event.target.value});
 	},
 
-    render: function(){
+    render: function () {
         return (<div className="form-group">
-                    <label className="col-sm-3 control-label" htmlFor="inputName">{this.props.label}</label>
+                    <label className="col-sm-3 control-label" htmlFor={this.props.id}>{this.props.label}</label>
                     <div className="col-sm-9">
-                        <textarea className="form-control" type="text" value={this.state.value} onChange={this.handleChange}/>
+                        <textarea id={this.props.id} name={this.props.name} className="form-control" type="text" value={this.state.value} onChange={this.handleChange}/>
                     </div>
                 </div>);
 	}
 });
 
 var FormDropdown = React.createClass({
-    getInitialState: function(){
+    getInitialState: function () {
 		return {value:""}
 	},
 
-    componentWillMount: function(){
+    componentWillMount: function () {
         this.setState({value:this.props.selected});
     },
 
-    handleChange:function(event){
+    handleChange:function (event) {
 		this.setState({value:event.target.value});
 	},
 
-	render: function(){
+	render: function () {
         var options = [];
 
         if(this.props.options && this.props.options.length)
@@ -69,9 +71,9 @@ var FormDropdown = React.createClass({
         }
 
         return (<div className="form-group">
-                    <label className="col-sm-3 control-label" htmlFor="inputName">{this.props.label}</label>
+                    <label className="col-sm-3 control-label" htmlFor={this.props.id}>{this.props.label}</label>
                     <div className="col-sm-9">
-                        <select className="form-control" value={this.state.value} onChange={this.handleChange}>
+                        <select id={this.props.id} name={this.props.name} className="form-control" value={this.state.value} onChange={this.handleChange}>
                             {options}
                         </select>
                     </div>
@@ -81,7 +83,7 @@ var FormDropdown = React.createClass({
 
 var FormCheckbox = React.createClass({
 
-    render: function(){
+    render: function () {
 
         var style = {paddingLeft: "0px"};
         var checkboxes = [];
@@ -95,11 +97,11 @@ var FormCheckbox = React.createClass({
                                     <input type="checkbox" value={item.value} defaultChecked={checked}/>{item.label}
                                   </label>
                                 </div>);
-            })
+            });
         }
 
         return (<div className="form-group">
-                    <label className="col-sm-3 control-label" htmlFor="inputName">{this.props.label}</label>
+                    <label className="col-sm-3 control-label">{this.props.label}</label>
                     <div className="col-sm-9">
                         {checkboxes}
                     </div>
@@ -109,7 +111,7 @@ var FormCheckbox = React.createClass({
 
 var FormRadio = React.createClass({
 
-    render: function(){
+    render: function () {
         var radios = [];
         var props = this.props;
 
@@ -133,7 +135,7 @@ var FormRadio = React.createClass({
 });
 
 var FormSubmitButton = React.createClass({
-    render: function(){
+    render: function () {
         return (<div className="form-group">
                     <div className="col-sm-9 col-sm-offset-3">
                         <button className="btn btn-primary" type="submit">{this.props.value}</button>
@@ -144,7 +146,7 @@ var FormSubmitButton = React.createClass({
 
 var Form = React.createClass({
 
-    componentWillMount: function(){
+    componentWillMount: function () {
         this.setState({value:this.props.value});
     },
 
@@ -156,7 +158,7 @@ var Form = React.createClass({
         }
     },
 
-    render: function(){
+    render: function () {
         var id = this.props.config.id;
         var name = this.props.config.name;
         var action = this.props.config.action;
@@ -164,6 +166,8 @@ var Form = React.createClass({
         var fields = config.fields;
         var formFields = fields.map(function(item, index, arr){
             var props = {
+                id: item.id,
+                name: item.name,
                 label: item.label,
                 value: item.value,
                 type: item.type,
@@ -233,7 +237,7 @@ var config = {
         value: "Submit",
         type: "submit"
     }],
-    onSubmit: function(){
+    onSubmit: function () {
         console.log("Form submitted");
     },
     action: "/abc"
