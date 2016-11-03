@@ -12,7 +12,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     "temp/form.temp.js": ["src/js/form.js"],
-                    "temp/app.temp.js": ["src/js/app.js"]
+                    "temp/app.temp.js": ["sample/js/app.js"]
                 }
             }
         },
@@ -24,7 +24,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     "dist/form.min.js": ["temp/form.temp.js"],
-                    "src/js/app.min.js": ["temp/app.temp.js"]
+                    "sample/js/app.min.js": ["temp/app.temp.js"]
                 }
             }
         },
@@ -32,7 +32,7 @@ module.exports = function (grunt) {
         copy: {
             files: {
                 files: {
-                    "src/js/form.min.js": ["dist/form.min.js"]
+                    "sample/js/form.min.js": ["dist/form.min.js"]
                 }
             }
         },
