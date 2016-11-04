@@ -26,7 +26,8 @@ This is a reusable piece of code which renders the fields described in the `conf
         {
             label: "Fruits",
             values: checkboxes,
-            type: "checkbox"
+            type: "checkbox",
+            selectedValue: ["a","c"]
         },
         {
             value: "Submit",
@@ -37,9 +38,10 @@ This is a reusable piece of code which renders the fields described in the `conf
         },
         action: "/abc"
     }
-    
+
+
 Bootstrap is used to style and layout the form
 
-## Usage
+### Usage
 
     ReactDOM.render(<ReactForm config={config} />,document.getElementById('root'));
