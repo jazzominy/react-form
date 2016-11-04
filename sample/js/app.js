@@ -1,5 +1,5 @@
 var options = [{label:"Apple",value:"a"},{label:"Banana",value:"b"},                                               {label:"Cranberry",value:"c"}];
-var checkboxes = [{label:"Apple",value:"a",checked:false},{label:"Banana",value:"b",checked:true},                                               {label:"Cranberry",value:"c"}];
+var checkboxes = [{label:"Apple",value:"a"},{label:"Banana",value:"b"},                                               {label:"Cranberry",value:"c"}];
 var radios = [{label:"Apple",value:"a"},{label:"Banana",value:"b"},                                               {label:"Cranberry",value:"c"}];
 
 var config = {
@@ -26,7 +26,8 @@ var config = {
     {
         label: "Fruits",
         values: checkboxes,
-        type: "checkbox"
+        type: "checkbox",
+        selectedValue: ["a","c"]
     },
     {
         value: "Submit",

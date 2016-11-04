@@ -81,18 +81,39 @@ var FormDropdown = React.createClass({
 
 var FormCheckbox = React.createClass({
 
-    render: function () {
+    getInitialState: function () {
+		return {value:[]}
+	},
 
+    componentWillMount: function () {
+        this.setState({value:this.props.selectedValue});
+    },
+
+    handleChange:function (event) {
+        var value = this.state.value;
+        var index = value.indexOf(event.target.value);
+
+        if(event.target.checked && index == -1)
+            value.push(event.target.value);
+        else if(!event.target.checked && index != -1)
+            value.splice(index,1);
+
+		this.setState({value:value});
+	},
+
+    render: function () {
+        var handleChange = this.handleChange;
         var style = {paddingLeft: "0px"};
+        var selectedValue = this.state.value.join(",");
         var checkboxes = [];
 
         if(this.props.values && this.props.values.length)
         {
             this.props.values.forEach(function(item,index,arr){
-                var checked = item.checked === true ? true : false;
+                var checked = selectedValue.search(item.value) != -1 ? true : false;
                 checkboxes.push(<div className="checkbox checkbox-inline" key={index} style={style}>
                                   <label>
-                                    <input type="checkbox" value={item.value} defaultChecked={checked}/>{item.label}
+                                    <input type="checkbox" value={item.value} checked={checked} onChange={handleChange}/>{item.label}
                                   </label>
                                 </div>);
             });
@@ -109,16 +130,29 @@ var FormCheckbox = React.createClass({
 
 var FormRadio = React.createClass({
 
+    getInitialState: function () {
+		return {value:""}
+	},
+
+    componentWillMount: function () {
+        this.setState({value:this.props.selectedValue});
+    },
+
+    handleChange:function (event) {
+		this.setState({value:event.target.value});
+	},
+
     render: function () {
         var radios = [];
-        var props = this.props;
+        var state = this.state;
+        var handleChange = this.handleChange;
 
         if(this.props.values && this.props.values.length)
         {
             this.props.values.forEach(function(item,index,arr){
-                var checked = props.selectedValue === item.value ? true : false;
+                var checked = state.value === item.value ? true : false;
                 radios.push(<label className="radio-inline" key={index}>
-                              <input type="radio" name="options" value={item.value} defaultChecked={checked}/>{item.label}
+                              <input type="radio" name="options" value={item.value} checked={checked} onChange={handleChange}/>{item.label}
                             </label>);
             })
         }
@@ -144,8 +178,10 @@ var FormSubmitButton = React.createClass({
 
 var Form = React.createClass({
 
+    form: null,
+
     componentWillMount: function () {
-        this.setState({value:this.props.value});
+        //this.setState({value:this.props.value});
     },
 
     onSubmit: function(event){
@@ -184,7 +220,7 @@ var Form = React.createClass({
             }
             else if(item.type == "checkbox")
             {
-                formItem = <FormCheckbox {...props} values={item.values}/>
+                formItem = <FormCheckbox {...props} values={item.values} selectedValue={item.selectedValue}/>
             }
             else if(item.type == "submit")
             {
@@ -198,6 +234,10 @@ var Form = React.createClass({
                       action={action} autoComplete="off">
                     {formFields}
                 </form>);
+    },
+
+    getData: function(){
+
     }
 });
 
