@@ -9,6 +9,9 @@ var FormTextIp = React.createClass({
 
 	handleChange: function (event) {
 		this.setState({value: event.target.value});
+
+        if(typeof this.props.updateData === "function")
+            this.props.updateData(this.props.id, event.target.value);
 	},
 
 	render: function () {
@@ -33,6 +36,9 @@ var FormTextArea = React.createClass({
 
     handleChange:function(event){
 		this.setState({value:event.target.value});
+
+        if(typeof this.props.updateData === "function")
+            this.props.updateData(this.props.id, event.target.value);
 	},
 
     render: function () {
@@ -56,6 +62,9 @@ var FormDropdown = React.createClass({
 
     handleChange:function (event) {
 		this.setState({value:event.target.value});
+
+        if(typeof this.props.updateData === "function")
+            this.props.updateData(this.props.id, event.target.value);
 	},
 
 	render: function () {
@@ -99,6 +108,9 @@ var FormCheckbox = React.createClass({
             value.splice(index,1);
 
 		this.setState({value:value});
+
+        if(typeof this.props.updateData === "function")
+            this.props.updateData(this.props.id, value);
 	},
 
     render: function () {
@@ -140,6 +152,9 @@ var FormRadio = React.createClass({
 
     handleChange:function (event) {
 		this.setState({value:event.target.value});
+
+        if(typeof this.props.updateData === "function")
+            this.props.updateData(this.props.id, event.target.value);
 	},
 
     render: function () {
@@ -178,27 +193,31 @@ var FormSubmitButton = React.createClass({
 
 var Form = React.createClass({
 
-    form: null,
-
     componentWillMount: function () {
-        //this.setState({value:this.props.value});
+        this.setState({fieldMap:{}});
     },
 
     onSubmit: function(event){
 
         if(this.props.config && typeof this.props.config.onSubmit === "function"){
             event.preventDefault();
+            this.getData();
             this.props.config.onSubmit();
         }
     },
 
     render: function () {
+        var fieldMap = this.state.fieldMap;
+        var updateData = this.updateData;
         var id = this.props.config.id;
         var name = this.props.config.name;
         var action = this.props.config.action;
         var config = this.props.config;
         var fields = config.fields;
         var formFields = fields.map(function(item, index, arr){
+            var key = item.id ? item.id : item.type +"_"+ item.label;
+            item.id = key;
+
             var props = {
                 id: item.id,
                 name: item.name,
@@ -208,23 +227,28 @@ var Form = React.createClass({
                 key: index
             }
 
-            var formItem = <FormTextIp {...props}/>;
+            var formItem = <FormTextIp {...props} updateData={updateData}/>;
+            fieldMap[item.id] = item.value;
 
             if(item.type == "select")
             {
-                formItem = <FormDropdown {...props} options={item.options} selected={item.selected}/>
+                formItem = <FormDropdown {...props} options={item.options} selected={item.selected} updateData={updateData}/>
+                fieldMap[item.id] = item.selected;
             }
             else if(item.type == "radio")
             {
-                formItem = <FormRadio {...props} values={item.values} selectedValue={item.selectedValue}/>
+                formItem = <FormRadio {...props} values={item.values} selectedValue={item.selectedValue} updateData={updateData}/>
+                fieldMap[item.id] = item.selectedValue;
             }
             else if(item.type == "checkbox")
             {
-                formItem = <FormCheckbox {...props} values={item.values} selectedValue={item.selectedValue}/>
+                formItem = <FormCheckbox {...props} values={item.values} selectedValue={item.selectedValue} updateData={updateData}/>
+                fieldMap[item.id] = item.selectedValue;
             }
             else if(item.type == "submit")
             {
                 formItem = <FormSubmitButton {...props}/>
+                delete fieldMap[item.id];
             }
 
             return formItem;
@@ -237,7 +261,14 @@ var Form = React.createClass({
     },
 
     getData: function(){
+        return this.state.fieldMap;
+    },
 
+    updateData: function(key,value){
+        if(key && value)
+        {
+            this.state.fieldMap[key] = value;
+        }
     }
 });
 
