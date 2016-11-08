@@ -199,11 +199,15 @@ var Form = React.createClass({
 
     onSubmit: function(event){
 
+        event.preventDefault();
+
         if(this.props.config && typeof this.props.config.onSubmit === "function"){
-            event.preventDefault();
-            this.getData();
-            this.props.config.onSubmit();
+
+            var data = this.getData();
+            this.props.config.onSubmit(data);
         }
+        else
+            console.log("No onSubmit handler provided");
     },
 
     render: function () {
@@ -254,7 +258,7 @@ var Form = React.createClass({
             return formItem;
         });
 
-        return (<form id={id} name={name} className="form-horizontal" onSubmit={this.onSubmit} method="post"
+        return (<form id={id} name={name} className="form form-horizontal" onSubmit={this.onSubmit} method="post"
                       action={action} autoComplete="off">
                     {formFields}
                 </form>);

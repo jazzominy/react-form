@@ -33,7 +33,8 @@ module.exports = function (grunt) {
             files: {
                 files: {
                     "sample/js/form.min.js": ["dist/form.min.js"],
-                    "sample/js/form.js": ["src/js/form.js"]
+                    "sample/js/form.js": ["src/js/form.js"],
+                    "sample/css/form.css": ["src/css/form.css"]
                 }
             }
         },
