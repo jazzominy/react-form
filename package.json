@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
+  "repository": {
+	    "type": "git",
+	    "url": "git://github.com/jazzominy/react-form.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install && bower install && grunt"
