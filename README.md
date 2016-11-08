@@ -1,6 +1,6 @@
 # Form component built using ReactJS
 
-This is a reusable piece of code which renders the fields described in the `config` object in a form tag. Here is a sample `config` object
+This is a reusable From component which renders the fields described in the `config` object in a form tag. Here is a sample `config` object
 
     config = {
         id: "info",
@@ -46,7 +46,7 @@ Bootstrap is used to style and layout the form.
 
     ReactDOM.render(<ReactForm config={config} />,document.getElementById('root'));
 
-### `config`
+### `config` object
 
 This prop specifies which how a form is to be rendered. It have these properties `id`, `name`, `label`, `fields`, `onSubmit` and `action`
 
@@ -80,3 +80,7 @@ The handler function that is called when the form is submitted. This function is
 ##### `action`
 
 Specifies the destination url where the form is to be submitted
+
+#### Creating the build
+
+Make sure [`grunt`](gruntjs.com) and [`bower`](https://bower.io) are installed. Run the command `npm run build`

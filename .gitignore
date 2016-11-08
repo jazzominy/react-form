@@ -4,3 +4,7 @@
 /bower_components/
 /node_modules/
 /*.log
+/dist/
+/sample/css/form.css
+/sample/js/app.min.js
+/sample/js/form.min.js
