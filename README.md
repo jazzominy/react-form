@@ -71,7 +71,11 @@ The `fields` property is of type array and holds the configuration for the field
 
 ##### `onSubmit`
 
-The handler function that is called when the form is submitted. This function is called with a map or field `id` as the key and the value of respective fields. In case if the field `id` is not specified, the key is constructed from field `type` and `label` as `type_label`
+The handler function that is called when the form is submitted. This function is called with 2 parameters:
+
+* `fieldMap` - a map of field `id` as the key and the value as value of respective fields. In case if the field `id` is not specified, the key is constructed from field `type` and `label` as `type_label`
+
+* `form` - reference to the form
 
 ##### `action`
 
