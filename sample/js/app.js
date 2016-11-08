@@ -33,8 +33,8 @@ var config = {
         value: "Submit",
         type: "submit"
     }],
-    onSubmit: function () {
-        console.log("Form submitted");
+    onSubmit: function (fieldMap, form) {
+        console.log("Form onSubmit called");
     },
     action: "/abc"
 }
