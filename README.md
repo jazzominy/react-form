@@ -83,4 +83,4 @@ Specifies the destination url where the form is to be submitted
 
 #### Creating the build
 
-Make sure [`grunt`](gruntjs.com) and [`bower`](https://bower.io) are installed. Run the command `npm run build`
+Make sure [`grunt`](http://gruntjs.com) and [`bower`](https://bower.io) are installed. Run the command `npm run build`
