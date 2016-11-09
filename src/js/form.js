@@ -19,7 +19,7 @@ var FormTextIp = React.createClass({
         return (<div className="form-group">
                     <label className="col-sm-3 control-label" htmlFor={this.props.id}>{this.props.label}</label>
                     <div className="col-sm-9">
-                        <input id={this.props.id} name={this.props.name} className="form-control" type="text" value={this.state.value} onChange={this.handleChange}/>
+                        <input id={this.props.id} name={this.props.name} className="form-control" type={this.props.type} value={this.state.value} onChange={this.handleChange}/>
                     </div>
                 </div>);
 	}
@@ -221,6 +221,8 @@ var Form = React.createClass({
         var formFields = fields.map(function(item, index, arr){
             var key = item.id ? item.id : item.type +"_"+ item.label;
             item.id = key;
+            //For button not need for updateData handler
+            updateData = (item.type == "button" || item.type == "submit") ? null : updateData;
 
             var props = {
                 id: item.id,
@@ -231,23 +233,32 @@ var Form = React.createClass({
                 key: index
             }
 
+            if(updateData)
+                props.updateData = updateData;
+
             var formItem = <FormTextIp {...props} updateData={updateData}/>;
             fieldMap[item.id] = item.value;
 
             if(item.type == "select")
             {
-                formItem = <FormDropdown {...props} options={item.options} selected={item.selected} updateData={updateData}/>
+                props.options = item.options;
+                props.selected = item.selected;
                 fieldMap[item.id] = item.selected;
+                formItem = <FormDropdown {...props}/>
             }
             else if(item.type == "radio")
             {
-                formItem = <FormRadio {...props} values={item.values} selectedValue={item.selectedValue} updateData={updateData}/>
+                props.values = item.values;
+                props.selectedValue = item.selectedValue;
                 fieldMap[item.id] = item.selectedValue;
+                formItem = <FormRadio {...props}/>
             }
             else if(item.type == "checkbox")
             {
-                formItem = <FormCheckbox {...props} values={item.values} selectedValue={item.selectedValue} updateData={updateData}/>
+                props.values = item.values;
+                props.selectedValue = item.selectedValue;
                 fieldMap[item.id] = item.selectedValue;
+                formItem = <FormCheckbox {...props}/>
             }
             else if(item.type == "submit")
             {
