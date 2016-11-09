@@ -8,8 +8,13 @@ var config = {
     label: "Form header",
     fields: [{
         label: "Greeting",
-        value: "Hello",
+        value: "Hello World",
         type: "text"
+    },
+    {
+        label: "Password",
+        value: "Hello",
+        type: "password"
     },
     {
         label: "Fruits",
