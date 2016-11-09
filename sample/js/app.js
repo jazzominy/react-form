@@ -44,4 +44,4 @@ var config = {
     action: "/abc"
 }
 
-ReactDOM.render(<ReactForm config={config} />,document.getElementById('root'));
+var form = ReactDOM.render(<RForm config={config} />,document.getElementById('root'));

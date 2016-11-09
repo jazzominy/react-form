@@ -49,7 +49,7 @@ Bootstrap is used to style and layout the form.
 
 ### Usage
 
-    ReactDOM.render(<ReactForm config={config} />,document.getElementById('root'));
+    ReactDOM.render(<RForm config={config} />,document.getElementById('root'));
 
 ### `config` object
 
