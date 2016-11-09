@@ -12,6 +12,11 @@ This is a reusable From component which renders the fields described in the `con
             type: "text"
         },
         {
+            label: "Password",
+            value: "Hello",
+            type: "password"
+        },
+        {
             label: "Fruits",
             options: options,
             type: "select",
