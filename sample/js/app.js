@@ -14,31 +14,42 @@ var config = {
     {
         label: "Password",
         value: "Hello",
-        type: "password"
+        type: "password",
+        required: true
     },
     {
         label: "Fruits",
         options: options,
         type: "select",
-        selected: "c"
+        selected: "c",
+        required: true
     },
     {
         label: "Fruits",
         values: radios,
         type: "radio",
-        selectedValue: "c"
+
+        required: true
     },
     {
         label: "Fruits",
         values: checkboxes,
         type: "checkbox",
-        selectedValue: ["a","c"]
+        selectedValue: ["a","c"],
+        required: true
     },
     {
         value: "Submit",
         type: "submit"
     }],
-    onSubmit: function (fieldMap, form) {
+    validator: true,
+    onSubmit: function (fieldMap, form, event) {
+        if(event && event.defaultPrevented)
+        {
+            console.log("Form is still invalid");
+            return;
+        }
+
         console.log("Form onSubmit called");
     },
     action: "/abc"

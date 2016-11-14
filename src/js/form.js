@@ -16,11 +16,17 @@
         },
 
         render: function () {
+            var required = this.props.required;
+            var classN = "col-sm-3 control-label";
+
+            if(required === true)
+                classN += " required";
 
             return (<div className="form-group">
-                        <label className="col-sm-3 control-label" htmlFor={this.props.id}>{this.props.label}</label>
+                        <label className={classN} htmlFor={this.props.id}>{this.props.label}</label>
                         <div className="col-sm-9">
-                            <input id={this.props.id} name={this.props.name} className="form-control" type={this.props.type} value={this.state.value} onChange={this.handleChange}/>
+                            <input id={this.props.id} name={this.props.name} className="form-control" type={this.props.type} value={this.state.value} onChange={this.handleChange}
+                            required={required === true ? true : ""}/>
                         </div>
                     </div>);
         }
@@ -43,10 +49,17 @@
         },
 
         render: function () {
+            var required = this.props.required;
+            var classN = "col-sm-3 control-label";
+
+            if(required === true)
+                classN += " required";
+
             return (<div className="form-group">
-                        <label className="col-sm-3 control-label" htmlFor={this.props.id}>{this.props.label}</label>
+                        <label className={classN} htmlFor={this.props.id}>{this.props.label}</label>
                         <div className="col-sm-9">
-                            <textarea id={this.props.id} name={this.props.name} className="form-control" type="text" value={this.state.value} onChange={this.handleChange}/>
+                            <textarea id={this.props.id} name={this.props.name} className="form-control" type="text" value={this.state.value} onChange={this.handleChange}
+                            required={required === true ? true : ""}/>
                         </div>
                     </div>);
         }
@@ -70,6 +83,11 @@
 
         render: function () {
             var options = [];
+            var required = this.props.required;
+            var classN = "col-sm-3 control-label";
+
+            if(required === true)
+                classN += " required";
 
             if(this.props.options && this.props.options.length)
             {
@@ -79,9 +97,10 @@
             }
 
             return (<div className="form-group">
-                        <label className="col-sm-3 control-label" htmlFor={this.props.id}>{this.props.label}</label>
+                        <label className={classN} htmlFor={this.props.id}>{this.props.label}</label>
                         <div className="col-sm-9">
-                            <select id={this.props.id} name={this.props.name} className="form-control" value={this.state.value} onChange={this.handleChange}>
+                            <select id={this.props.id} name={this.props.name} className="form-control" value={this.state.value} onChange={this.handleChange}
+                            required={required === true ? true : ""}>
                                 {options}
                             </select>
                         </div>
@@ -119,6 +138,11 @@
             var style = {paddingLeft: "0px"};
             var selectedValue = this.state.value.join(",");
             var checkboxes = [];
+            var required = this.props.required;
+            var classN = "col-sm-3 control-label";
+
+            if(required === true)
+                classN += " required";
 
             if(this.props.values && this.props.values.length)
             {
@@ -126,14 +150,15 @@
                     var checked = selectedValue.search(item.value) != -1 ? true : false;
                     checkboxes.push(<div className="checkbox checkbox-inline" key={index} style={style}>
                                       <label>
-                                        <input type="checkbox" value={item.value} checked={checked} onChange={handleChange}/>{item.label}
+                                        <input type="checkbox" value={item.value} checked={checked} onChange={handleChange}
+                                        required={required === true ? true : ""}/>{item.label}
                                       </label>
                                     </div>);
                 });
             }
 
             return (<div className="form-group">
-                        <label className="col-sm-3 control-label">{this.props.label}</label>
+                        <label className={classN}>{this.props.label}</label>
                         <div className="col-sm-9">
                             {checkboxes}
                         </div>
@@ -162,19 +187,25 @@
             var radios = [];
             var state = this.state;
             var handleChange = this.handleChange;
+            var required = this.props.required;
+            var classN = "col-sm-3 control-label";
+
+            if(required === true)
+                classN += " required";
 
             if(this.props.values && this.props.values.length)
             {
                 this.props.values.forEach(function(item,index,arr){
                     var checked = state.value === item.value ? true : false;
                     radios.push(<label className="radio-inline" key={index}>
-                                  <input type="radio" name="options" value={item.value} checked={checked} onChange={handleChange}/>{item.label}
+                                  <input type="radio" name="options" value={item.value} checked={checked} onChange={handleChange}
+                                  required={required === true ? true : ""}/>{item.label}
                                 </label>);
                 })
             }
 
             return (<div className="form-group">
-                        <label className="col-sm-3 control-label">{this.props.label}</label>
+                        <label className={classN}>{this.props.label}</label>
                         <div className="col-sm-9">
                           {radios}
                         </div>
@@ -200,12 +231,10 @@
 
         onSubmit: function(event){
 
-            event.preventDefault();
-
             if(this.props.config && typeof this.props.config.onSubmit === "function"){
 
                 var data = this.getData();
-                this.props.config.onSubmit(data,this.form);
+                this.props.config.onSubmit(data,this.form,event);
             }
             else
                 console.log("No onSubmit handler provided");
@@ -214,11 +243,12 @@
         render: function () {
             var fieldMap = this.state.fieldMap;
             var updateData = this.updateData;
-            var id = this.props.config.id;
-            var name = this.props.config.name;
-            var action = this.props.config.action;
             var config = this.props.config;
+            var id = config.id;
+            var name = config.name;
+            var action = config.action;
             var fields = config.fields;
+
             var formFields = fields.map(function(item, index, arr){
                 var key = item.id ? item.id : item.type +"_"+ item.label;
                 item.id = key;
@@ -231,7 +261,8 @@
                     label: item.label,
                     value: item.value,
                     type: item.type,
-                    key: index
+                    key: index,
+                    required: item.required
                 }
 
                 if(updateData)
@@ -271,10 +302,24 @@
             });
 
             return (<form id={id} name={name} className="form form-horizontal"
-                          onSubmit={this.onSubmit} method="post" ref={this.setFormRef}
+                          method="post" ref={this.setFormRef}
                           action={action} autoComplete="off">
                         {formFields}
                     </form>);
+        },
+
+        componentDidMount: function(){
+            var validator = this.props.config.validator;
+
+            if(window.$ && validator === true)
+            {
+                var $el = $("#"+this.props.config.id);
+                $el.validator();
+            }
+
+            //Add the listener after the validator plugin is initialized. So it works as expected
+            if(this.form)
+                this.form.onsubmit = this.onSubmit;
         },
 
         setFormRef: function(ref){
