@@ -8,38 +8,49 @@ This is a reusable From component which renders the fields described in the `con
         label: "Form header",
         fields: [{
             label: "Greeting",
-            value: "Hello",
+            value: "Hello World",
             type: "text"
         },
         {
             label: "Password",
             value: "Hello",
-            type: "password"
+            type: "password",
+            required: true
         },
         {
             label: "Fruits",
             options: options,
             type: "select",
-            selected: "c"
+            selected: "c",
+            required: true
         },
         {
             label: "Fruits",
             values: radios,
             type: "radio",
-            selectedValue: "c"
+
+            required: true
         },
         {
             label: "Fruits",
             values: checkboxes,
             type: "checkbox",
-            selectedValue: ["a","c"]
+            selectedValue: ["a","c"],
+            required: true
         },
         {
             value: "Submit",
             type: "submit"
         }],
-        onSubmit: function (fieldMap) {
-            console.log("Form submitted");
+        validator: true,
+        onSubmit: function (fieldMap, form, event) {
+            if(event && event.defaultPrevented)
+            {
+                console.log("Form is still invalid");
+                return;
+            }
+
+            console.log("Form onSubmit called");
         },
         action: "/abc"
     }
@@ -89,3 +100,24 @@ Specifies the destination url where the form is to be submitted
 #### Creating the build
 
 To run the sample, build script must be executed. Make sure [`grunt`](http://gruntjs.com) and [`bower`](https://bower.io) are installed. Run the command `npm run build`. Once the commands run successfully, launch `index.html` in `sample` folder. The minified precompiled versions of the `app.js` and `form.js` are also created in `sample/js` folder
+
+## Validation
+
+This component also includes validation using [Bootstrap Validator](https://github.com/1000hz/bootstrap-validator). To enable it, set the value of `validator` property of `config` object to true
+
+    config = {
+        ...
+        validator: true
+        ...
+    }
+
+This will initialize the validator. In order to specify the field as required, just set the `required` property for the field config to true
+
+    {
+        label: "Password",
+        value: "Hello",
+        type: "password",
+        required: true
+    }
+
+If the required fields are blank, the `submit` button will be shown disabled. The `onSubmit` function will still be executed for an invalid form. The form is invalid, is indicated by the value of `defaultPrevented` property of `event` parameter passed to `onSubmit` function. A value of true indicates the form is invalid
