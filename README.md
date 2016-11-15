@@ -89,3 +89,7 @@ Specifies the destination url where the form is to be submitted
 #### Creating the build
 
 To run the sample, build script must be executed. Make sure [`grunt`](http://gruntjs.com) and [`bower`](https://bower.io) are installed. Run the command `npm run build`. Once the commands run successfully, launch `index.html` in `sample` folder. The minified precompiled versions of the `app.js` and `form.js` are also created in `sample/js` folder
+
+### Validation
+
+For integrated Bootstrap Validator, check validation branch
